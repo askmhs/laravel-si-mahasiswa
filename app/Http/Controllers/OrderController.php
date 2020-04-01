@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\BiodataMahasiswa;
 
-class BiodataController extends Controller
+class OrderController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +13,7 @@ class BiodataController extends Controller
      */
     public function index()
     {
-        $mahasiswa = BiodataMahasiswa::all();
-        return view("biodata.index", compact("mahasiswa"));
+        //
     }
 
     /**
@@ -26,7 +23,7 @@ class BiodataController extends Controller
      */
     public function create()
     {
-        return view("biodata.create");
+        //
     }
 
     /**
@@ -37,8 +34,7 @@ class BiodataController extends Controller
      */
     public function store(Request $request)
     {
-        $filePath = $request->file("photo")->store("photo-mhs");
-        return $filePath;
+        //
     }
 
     /**
@@ -49,8 +45,7 @@ class BiodataController extends Controller
      */
     public function show($id)
     {
-        $data = BiodataMahasiswa::find($id);
-        return view("biodata.show", compact("data"));
+        //
     }
 
     /**
@@ -61,8 +56,7 @@ class BiodataController extends Controller
      */
     public function edit($id)
     {
-        $data = BiodataMahasiswa::find($id);
-        return view("biodata.edit", compact("data"));
+        //
     }
 
     /**
@@ -74,8 +68,7 @@ class BiodataController extends Controller
      */
     public function update(Request $request, $id)
     {
-        BiodataMahasiswa::where("id", $id)->update($request->except("_token", "_method"));
-        return redirect()->route("biodata.index");
+        //
     }
 
     /**
@@ -86,7 +79,6 @@ class BiodataController extends Controller
      */
     public function destroy($id)
     {
-        BiodataMahasiswa::where("id", $id)->delete();
-        return redirect()->route("biodata.index");
+        //
     }
 }

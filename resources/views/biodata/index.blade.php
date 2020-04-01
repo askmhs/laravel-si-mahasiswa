@@ -18,9 +18,9 @@
                     <td>{{ $data->name }}</td>
                     <td>{{ $data->nim }}</td>
                     <td>
-                        <button type="button" class="btn btn-success">Detail</button>
-                        <button type="button" class="btn btn-warning">Edit</button>
-                        <button type="button" class="btn btn-danger">Delete</button>
+                        <a href="{{ route('biodata.show', ['biodatum' => $data->id]) }}" class="btn btn-success">Detail</a>
+                        <a href="{{ route('biodata.edit', ['biodatum' => $data->id]) }}" class="btn btn-warning">Edit</a>
+                        <a onclick="return confirm('Apakah Anda yakin?');" href="{{ route('biodata.destroy', ['biodatum' => $data->id]) }}" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
             @empty
