@@ -21,4 +21,4 @@ Route::post("/login", "LoginController@login")->name("login.login");
 
 Route::get("/logout", "LoginController@logout")->name("logout");
 
-Route::resource("biodata", "BiodataController");
+Route::resource("biodata", "BiodataController")->middleware("web");
