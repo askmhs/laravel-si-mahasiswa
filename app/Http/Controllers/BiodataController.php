@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\BiodataMahasiswa;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UpdateBiodata;
 
 class BiodataController extends Controller
 {
@@ -69,22 +70,12 @@ class BiodataController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UpdateBiodata  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBiodata $request, $id)
     {
-        $validation = Validator::make($request->all(), [
-            "name" => "string|min:3|max:10|alpha",
-            "nim" => "string|min:8",
-            "alamat" => "string|min:10",
-        ]);
-
-        if ($validation->fails()) {
-            return redirect()->back()->withErrors($validation)->withInput();
-        }
-
         BiodataMahasiswa::where("id", $id)->update($request->except("_token", "_method"));
         return redirect()->route("biodata.index");
     }
