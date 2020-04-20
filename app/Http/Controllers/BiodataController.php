@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\BiodataMahasiswa;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateBiodata;
+use DataTables;
+use Yajra\DataTables\Html\Builder;
 
 class BiodataController extends Controller
 {
@@ -15,10 +17,19 @@ class BiodataController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Builder $builder)
     {
-        $mahasiswa = BiodataMahasiswa::all();
-        return view("biodata.index", compact("mahasiswa"));
+        if (request()->ajax()) {
+            return DataTables::of(BiodataMahasiswa::query())->toJson();
+        }
+
+        $html = $builder->columns([
+            ["data" => "id", "name" => "id", "title" => "ID"],
+            ["data" => "name", "name" => "name", "title" => "NAMA"],
+            ["data" => "nim", "name" => "nim", "title" => "NIM"],
+        ]);
+
+        return view("biodata.index", compact("html"));
     }
 
     /**
