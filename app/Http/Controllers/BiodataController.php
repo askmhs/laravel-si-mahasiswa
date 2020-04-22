@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\BiodataMahasiswa;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UpdateBiodata;
+use DataTables;
+use Yajra\DataTables\Html\Builder;
 
 class BiodataController extends Controller
 {
@@ -14,10 +17,19 @@ class BiodataController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Builder $builder)
     {
-        $mahasiswa = BiodataMahasiswa::all();
-        return view("biodata.index", compact("mahasiswa"));
+        if (request()->ajax()) {
+            return DataTables::of(BiodataMahasiswa::query())->toJson();
+        }
+
+        $html = $builder->columns([
+            ["data" => "id", "name" => "id", "title" => "ID"],
+            ["data" => "name", "name" => "name", "title" => "NAMA"],
+            ["data" => "nim", "name" => "nim", "title" => "NIM"],
+        ]);
+
+        return view("biodata.index", compact("html"));
     }
 
     /**
@@ -69,22 +81,12 @@ class BiodataController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UpdateBiodata  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBiodata $request, $id)
     {
-        $validation = Validator::make($request->all(), [
-            "name" => "string|min:3|max:10|alpha",
-            "nim" => "string|min:8",
-            "alamat" => "string|min:10",
-        ]);
-
-        if ($validation->fails()) {
-            return redirect()->back()->withErrors($validation)->withInput();
-        }
-
         BiodataMahasiswa::where("id", $id)->update($request->except("_token", "_method"));
         return redirect()->route("biodata.index");
     }
